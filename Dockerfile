@@ -1,29 +1,31 @@
-FROM alpine:3.13
+FROM alpine:3.20
 
-RUN mkdir /prince
+RUN mkdir /prince && \
+    apk add --no-cache \
+        libxml2 \
+        pixman \
+        tiff \
+        giflib \
+        libpng \
+        lcms2 \
+        libjpeg-turbo \
+        fontconfig \
+        freetype \
+        libgomp \
+        libwebpdemux \
+        libavif \
+        aom-libs
 
 WORKDIR /prince
 
-RUN apk add --no-cache curl
-RUN curl https://www.princexml.com/download/prince-14.2-alpine3.13-x86_64.tar.gz -o prince.tar.gz
-RUN tar -zxvf prince.tar.gz
-RUN rm prince.tar.gz
-
-RUN apk add --no-cache \
-  libxml2 \
-  pixman \
-  tiff \
-  giflib \
-  libpng \
-  lcms2 \
-  libjpeg-turbo \
-  fontconfig \
-  freetype \
-  libgomp
+RUN apk add --no-cache curl && \
+    curl https://www.princexml.com/download/prince-20241206-alpine3.20-x86_64.tar.gz -o prince.tar.gz && \
+    tar -zxvf prince.tar.gz && \
+    rm prince.tar.gz
 
 # Install fonts
 RUN apk --no-cache add msttcorefonts-installer fontconfig && \
     update-ms-fonts && \
     fc-cache -f
 
-ENTRYPOINT [ "./prince-14.2-alpine3.13-x86_64/lib/prince/bin/prince" ]
+ENTRYPOINT [ "./prince-20241206-alpine3.20-x86_64/lib/prince/bin/prince" ]
