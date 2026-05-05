@@ -1,4 +1,4 @@
-FROM alpine:3.20
+FROM alpine:3.23
 
 RUN mkdir /prince && \
     apk add --no-cache \
@@ -19,7 +19,7 @@ RUN mkdir /prince && \
 WORKDIR /prince
 
 RUN apk add --no-cache curl && \
-    curl https://www.princexml.com/download/prince-20241206-alpine3.20-x86_64.tar.gz -o prince.tar.gz && \
+    curl https://www.princexml.com/download/prince-16.2-alpine3.23-x86_64.tar.gz -o prince.tar.gz && \
     tar -zxvf prince.tar.gz && \
     rm prince.tar.gz
 
@@ -28,4 +28,4 @@ RUN apk --no-cache add msttcorefonts-installer fontconfig && \
     update-ms-fonts && \
     fc-cache -f
 
-ENTRYPOINT [ "./prince-20241206-alpine3.20-x86_64/lib/prince/bin/prince" ]
+ENTRYPOINT [ "./prince-16.2-alpine3.23-x86_64/lib/prince/bin/prince" ]
